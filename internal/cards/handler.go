@@ -15,7 +15,7 @@ type Handler struct {
 // NewHandler creates a new card handler
 func NewHandler() *Handler {
 	return &Handler{
-		service: NewCardService(),
+		service: NewCardService(nil),
 	}
 }
 

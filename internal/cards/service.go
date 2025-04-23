@@ -10,7 +10,10 @@ type CardService struct {
 }
 
 // NewCardService creates a new card service
-func NewCardService() *CardService {
+func NewCardService(client ScryfallClientInterface) *CardService {
+	if client == nil {
+		client = NewScryfallClient()
+	}
 	return &CardService{
 		scryfallClient: NewScryfallClient(),
 	}

@@ -9,11 +9,19 @@ import (
 	"time"
 )
 
+// ScryfallClientInterface defines the methods the Scryfall client should implement
+type ScryfallClientInterface interface {
+	SearchCards(query string) (*ScryfallSearchResponse, error)
+	GetCardByID(id string) (*ScryfallCard, error)
+}
+
 // ScryfallClient handles communication with the Scryfall API
 type ScryfallClient struct {
 	httpClient *http.Client
 	baseURL    string
 }
+
+var _ ScryfallClientInterface = (*ScryfallClient)(nil)
 
 // NewScryfallClient creates a new Scryfall API client
 func NewScryfallClient() *ScryfallClient {
