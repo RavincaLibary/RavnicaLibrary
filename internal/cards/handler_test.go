@@ -22,7 +22,7 @@ func TestHandler_SearchCards(t *testing.T) {
 	}{
 		{
 			name:  "successful search",
-			query: "lightning bolt",
+			query: "lightning%20bolt",
 			setupMock: func(m *MockScryfallClient) {
 				m.On("SearchCards", "lightning bolt").Return(
 					&ScryfallSearchResponse{
