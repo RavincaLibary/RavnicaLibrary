@@ -1,0 +1,54 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.24.1'
+
+      - name: Build
+        run: |
+          go build -o app
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.AWS_RL_BACK_DNS }}
+          username: ${{ secrets.AWS_RL_BACK_USERNAME }}
+          key: ${{ secrets.AWS_RL_BACK_KEY }}
+          script: |
+            mkdir -p ~/go-app
+            
+            if [ -f ~/go-app/app ]; then
+              pkill -f "~/go-app/app" || true
+            fi
+
+      - name: Copy application to server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.AWS_RL_BACK_DNS }}
+          username: ${{ secrets.AWS_RL_BACK_USERNAME }}
+          key: ${{ secrets.AWS_RL_BACK_KEY }}
+          source: "app"
+          target: "~/go-app"
+
+      - name: Start application
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.AWS_RL_BACK_DNS }}
+          username: ${{ secrets.AWS_RL_BACK_USERNAME }}
+          key: ${{ secrets.AWS_RL_BACK_KEY }}
+          script: |
+            cd ~/go-app
+            chmod +x app
+            nohup ./app > app.log 2>&1 &
