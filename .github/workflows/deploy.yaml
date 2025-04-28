@@ -18,7 +18,8 @@ jobs:
 
       - name: Build
         run: |
-          go build -o app
+          cd cmd/api
+          go build -o ../../app
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.0
