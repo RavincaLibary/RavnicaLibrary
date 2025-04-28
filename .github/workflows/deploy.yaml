@@ -46,9 +46,9 @@ jobs:
       - name: Start application
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.AWS_RL_BACK_DNS }}
-          username: ${{ secrets.AWS_RL_BACK_USERNAME }}
-          key: ${{ secrets.AWS_RL_BACK_KEY }}
+          host: ${{ secrets.AWS_RL_BACK_EC2_DNS }}
+          username: ${{ secrets.AWS_RL_BACK_EC2_KEY }}
+          key: ${{ secrets.AWS_RL_BACK_EC2_USERNAME }}
           script: |
             cd ~/go-app
             chmod +x app
