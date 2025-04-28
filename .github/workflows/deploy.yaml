@@ -47,8 +47,8 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.AWS_RL_BACK_EC2_DNS }}
-          username: ${{ secrets.AWS_RL_BACK_EC2_KEY }}
-          key: ${{ secrets.AWS_RL_BACK_EC2_USERNAME }}
+          username: ${{ secrets.AWS_RL_BACK_EC2_USERNAME }}
+          key: ${{ secrets.AWS_RL_BACK_EC2_KEY }}
           script: |
             cd ~/go-app
             chmod +x app
