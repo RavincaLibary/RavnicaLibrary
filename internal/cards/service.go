@@ -6,13 +6,16 @@ import (
 
 // CardService handles card-related business logic
 type CardService struct {
-	scryfallClient *ScryfallClient
+	scryfallClient ScryfallClientInterface
 }
 
 // NewCardService creates a new card service
-func NewCardService() *CardService {
+func NewCardService(client ScryfallClientInterface) *CardService {
+	if client == nil {
+		client = NewScryfallClient()
+	}
 	return &CardService{
-		scryfallClient: NewScryfallClient(),
+		scryfallClient: client,
 	}
 }
 
